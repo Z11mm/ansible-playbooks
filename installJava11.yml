@@ -1,0 +1,14 @@
+- name: install java 11 for jenkins server
+  hosts: jenkins-servers
+  become: True
+  tasks:
+    - name: update apt package manager repositories
+      apt: update_cache=yes
+
+    - name: install java
+      vars: 
+        packages:
+          - openjdk-11-jdk
+      apt: 
+        name: "{{ packages }}"
+        state: present
