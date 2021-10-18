@@ -8,6 +8,9 @@
     - name: Configure the repository
       apt_repository: repo='deb https://pkg.jenkins.io/debian-stable binary/' state=present
 
+    - name: update apt package manager repositories
+      apt: update_cache=yes
+
     - name: Install Jenkins
       apt: name=jenkins update_cache=yes
 
