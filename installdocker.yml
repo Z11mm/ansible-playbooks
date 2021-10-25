@@ -1,0 +1,26 @@
+- name: Install Docker
+  hosts: jenkins-servers
+  become: True
+  tasks:
+    - name: Add Docker repository key
+      apt_key: url=https://download.docker.com/linux/debian/gpg state=present
+
+    - name: Add Docker repository
+      apt_repository: repo='deb https://download.docker.com/linux/debian buster stable' state=present
+
+    - name: update apt package manager repositories
+      apt: update_cache=yes
+
+    - name: Install docker engine
+      apt: 
+        pkg: 
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+
+    - name: Add jenkins user to docker group
+      command: usermod -aG docker jenkins
+
+    - name: Restart Jenkins
+      command: systemctl restart jenkins
+
